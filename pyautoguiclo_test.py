@@ -118,11 +118,11 @@ def clo_test(clo_exec, test_folder, test_file):
 
 if __name__ == "__main__":
     # DEBUG PARAMS -----
-    # clo_test(
-    # r"D:\Program Files\CLO Network OnlineAuth 6.0.594\CLO_Network_OnlineAuth_x64.exe"
-    # r"C:\Users\hugosetyadji\OneDrive - Li & Fung\test_files\clo_test",
-    # r"women_10_sweater.Zprj"
-    # )
+    clo_test(
+    r"D:\Program Files\CLO Network OnlineAuth 6.0.594\CLO_Network_OnlineAuth_x64.exe"
+    r"C:\Users\hugosetyadji\OneDrive - Li & Fung\test_files\clo_test",
+    r"women_10_sweater.Zprj"
+    )
 
     clo_test(
         r"C:\Program Files\CLO Network OnlineAuth 5.60\CLO_Network_OnlineAuth_x64.exe",

@@ -1,15 +1,15 @@
-import subprocess
+from pathlib import Path
+import shutil
 
-import pyautogui
-pyautogui.useImageNotFoundException()
+from Timelines import Timeline
 
 
 class GUIMonkey:
     def __init__(self):
-        self.resources = None
+        self.resource_pool = Path("./resources")
         self.timelines = dict()
 
-    def new_timeline(self, name, source):
+    def create_timeline(self, name, source):
         if name in self.timelines.keys():
             print("Timeline already exists, please choose a different name")
             return None
@@ -18,55 +18,23 @@ class GUIMonkey:
         self.timelines[name] = new_timeline
         return self.timelines[name]
 
+    # Resource pool updating might be done during loop. That might be better
+    # than trying to manage items from the central GUI
+
     def set_resource_pool(self, path):
-        self.resources = path
-        self.check_resources()
+        self.resource_pool = path
+        # self.check_resource_pool()
 
-    def add_resource(self):
+    def check_resource_pool(self):
+        for file in self.resource_pool.rglob("*.*"):
+            # TODO: Generate UI thumbnails and tags
+            self.register_resource(file)
+
+    def add_resource(self, source, dest):
+        # Copy file or folder from original location to resource pool
+        shutil.copy2(source, dest)
+        self.register_resource(dest)
+
+    def register_resource(self, resource):
+        # TODO: Generate UI thumbnail and tags
         pass
-
-    def create_timeline(self):
-        pass
-
-
-class Timeline:
-    def __init__(self, name=None, program_path=None):
-        self.name = name
-        self.program = program_path
-        self.steps = None
-        self.requirements = None
-        self.data = {}
-
-    def run_timeline(self):
-        print("Running program")
-        try:
-            subprocess.Popen(self.program)
-        except Exception:
-            print("Failed to launch program! Aborting...")
-
-        for step in self.steps:
-
-            # TODO: this might be smoother with functools.partial
-            if step.flags["require"]:
-                require_data = step.flags["require_data"]
-                data_key, pass_data = step.execute(require_data)
-            else:
-                data_key, pass_data = step.execute()
-
-            if step.flags['passthrough']:
-                self.data[data_key] = pass_data
-
-    def add_step(self):
-        pass
-
-    def add_delay(self):
-        pass
-
-    # TODO: Leave this on roadmap
-    def add_condition(self, condition, success, failure):
-        if condition:
-            success()
-        else:
-            failure()
-
-
