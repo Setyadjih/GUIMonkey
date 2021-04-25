@@ -4,7 +4,8 @@ import shutil
 from Timelines import Timeline
 
 
-class GUIMonkey:
+class GUIMonkeyCore:
+    """Core Engine to manage Timelines and resource pool directory"""
     def __init__(self):
         self.resource_pool = Path("./resources")
         self.timelines = dict()

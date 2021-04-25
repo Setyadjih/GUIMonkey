@@ -1,0 +1,1 @@
+pyside6-uic ui\views\GUIMonkeyMain.ui > ui\GUIMonkeyMain.py

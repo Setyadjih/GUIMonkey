@@ -1,4 +1,4 @@
-from GUIMonkey import GUIMonkey
+from GUIMonkeyCore import GUIMonkeyCore
 from Timelines import Timeline
 from Steps import WaitForImage, ClickOnButton, KeyPress, Delay, Write, \
     WaitForLoading, MoveToButton
@@ -9,7 +9,7 @@ TEST_FILE = r"women_10_sweater.Zprj"
 
 
 def CLO_test_usage():
-    gm = GUIMonkey()
+    gm = GUIMonkeyCore()
     gm.set_resource_pool("./resources")
 
     clo_test: Timeline = gm.create_timeline("CLO Test", source=CLO_PATH)
