@@ -1,7 +1,8 @@
 import sys
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QMainWindow, QListWidgetItem
+from PySide6.QtWidgets import QApplication, QMainWindow, QListWidgetItem, \
+    QMessageBox
 from PySide6.QtGui import QAction
 
 from GUIMonkey import GUIMonkeyCore
@@ -18,9 +19,7 @@ class GuiMonkeyUI(QMainWindow):
         self.ui.setupUi(self)
 
         # Timeline list Context Menu
-        self.ui.timelineList.setContextMenuPolicy(Qt.ActionsContextMenu)
-
-        delete_action = QAction("Remove Timeline", self.ui.timelineList)
+        delete_action = self.ui.deleteTimelineAction
         self.ui.timelineList.addAction(delete_action)
 
         # Hookup buttons
@@ -50,6 +49,16 @@ class GuiMonkeyUI(QMainWindow):
         self.update_timelines()
 
     def delete_timeline(self):
+        confirm_dialog = QMessageBox()
+        confirm_dialog.setIcon(QMessageBox.Warning)
+        confirm_dialog.setWindowTitle("Confirm Delete")
+        confirm_dialog.setText("Are you sure?")
+        confirm_dialog.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        confirm_dialog.setDefaultButton(QMessageBox.Cancel)
+
+        if confirm_dialog.exec_() == QMessageBox.Cancel:
+            return
+
         selected_timeline = self.ui.timelineList.currentItem().text()
 
         self.core.delete_timeline(selected_timeline)

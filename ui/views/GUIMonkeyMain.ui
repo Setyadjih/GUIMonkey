@@ -114,11 +114,6 @@
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="newTimelineAction">
-   <property name="text">
-    <string>New Timeline</string>
-   </property>
-  </action>
   <action name="openAction">
    <property name="text">
     <string>Open..</string>
@@ -127,6 +122,14 @@
   <action name="recentsAction">
    <property name="text">
     <string>Recents</string>
+   </property>
+  </action>
+  <action name="deleteTimelineAction">
+   <property name="text">
+    <string>Delete Timeline</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete the selected Timeline</string>
    </property>
   </action>
  </widget>

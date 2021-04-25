@@ -18,12 +18,12 @@ class Ui_GUIMonkeyMain(object):
         if not GUIMonkeyMain.objectName():
             GUIMonkeyMain.setObjectName(u"GUIMonkeyMain")
         GUIMonkeyMain.resize(800, 600)
-        self.newTimelineAction = QAction(GUIMonkeyMain)
-        self.newTimelineAction.setObjectName(u"newTimelineAction")
         self.openAction = QAction(GUIMonkeyMain)
         self.openAction.setObjectName(u"openAction")
         self.recentsAction = QAction(GUIMonkeyMain)
         self.recentsAction.setObjectName(u"recentsAction")
+        self.deleteTimelineAction = QAction(GUIMonkeyMain)
+        self.deleteTimelineAction.setObjectName(u"deleteTimelineAction")
         self.centralwidget = QWidget(GUIMonkeyMain)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -106,9 +106,12 @@ class Ui_GUIMonkeyMain(object):
 
     def retranslateUi(self, GUIMonkeyMain):
         GUIMonkeyMain.setWindowTitle(QCoreApplication.translate("GUIMonkeyMain", u"GUI Monkey", None))
-        self.newTimelineAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"New Timeline", None))
         self.openAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"Open..", None))
         self.recentsAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"Recents", None))
+        self.deleteTimelineAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"Delete Timeline", None))
+#if QT_CONFIG(tooltip)
+        self.deleteTimelineAction.setToolTip(QCoreApplication.translate("GUIMonkeyMain", u"Delete the selected Timeline", None))
+#endif // QT_CONFIG(tooltip)
         self.addTimelineButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Timeline", None))
         self.removeStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Remove Step", None))
         self.addStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Step", None))
