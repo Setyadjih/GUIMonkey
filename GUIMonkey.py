@@ -8,16 +8,18 @@ class GUIMonkeyCore:
     """Core Engine to manage Timelines and resource pool directory"""
     def __init__(self):
         self.resource_pool = Path("./resources")
-        self.timelines = dict()
+        self.timelines = {}
 
-    def create_timeline(self, name, source):
+    def create_timeline(self, name, source=None):
         if name in self.timelines.keys():
             print("Timeline already exists, please choose a different name")
             return None
 
         new_timeline = Timeline(name, source)
         self.timelines[name] = new_timeline
-        return self.timelines[name]
+
+    def delete_timeline(self, name):
+        del self.timelines[name]
 
     # Resource pool updating might be done during loop. That might be better
     # than trying to manage items from the central GUI

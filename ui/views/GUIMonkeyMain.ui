@@ -18,7 +18,22 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QListWidget" name="TimelineList"/>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="1" column="0">
+         <widget class="QPushButton" name="addTimelineButton">
+          <property name="text">
+           <string>Add Timeline</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QListWidget" name="timelineList">
+          <property name="contextMenuPolicy">
+           <enum>Qt::ActionsContextMenu</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QFrame" name="ControlsFrame">
@@ -36,14 +51,14 @@
         </property>
         <layout class="QGridLayout" name="gridLayout">
          <item row="0" column="1">
-          <widget class="QPushButton" name="RemoveStepButton">
+          <widget class="QPushButton" name="removeStepButton">
            <property name="text">
             <string>Remove Step</string>
            </property>
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QPushButton" name="AddStepButton">
+          <widget class="QPushButton" name="addStepButton">
            <property name="text">
             <string>Add Step</string>
            </property>
@@ -66,13 +81,13 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="TimelineScroll">
+      <widget class="QWidget" name="timelineScroll">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
          <width>780</width>
-         <height>264</height>
+         <height>265</height>
         </rect>
        </property>
       </widget>
@@ -86,31 +101,30 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew_Timeline"/>
-    <addaction name="actionOpen"/>
-    <addaction name="actionRecents"/>
+    <addaction name="openAction"/>
+    <addaction name="recentsAction"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionNew_Timeline">
+  <action name="newTimelineAction">
    <property name="text">
     <string>New Timeline</string>
    </property>
   </action>
-  <action name="actionOpen">
+  <action name="openAction">
    <property name="text">
     <string>Open..</string>
    </property>
   </action>
-  <action name="actionRecents">
+  <action name="recentsAction">
    <property name="text">
     <string>Recents</string>
    </property>

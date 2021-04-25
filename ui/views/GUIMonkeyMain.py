@@ -18,22 +18,33 @@ class Ui_GUIMonkeyMain(object):
         if not GUIMonkeyMain.objectName():
             GUIMonkeyMain.setObjectName(u"GUIMonkeyMain")
         GUIMonkeyMain.resize(800, 600)
-        self.actionNew_Timeline = QAction(GUIMonkeyMain)
-        self.actionNew_Timeline.setObjectName(u"actionNew_Timeline")
-        self.actionOpen = QAction(GUIMonkeyMain)
-        self.actionOpen.setObjectName(u"actionOpen")
-        self.actionRecents = QAction(GUIMonkeyMain)
-        self.actionRecents.setObjectName(u"actionRecents")
+        self.newTimelineAction = QAction(GUIMonkeyMain)
+        self.newTimelineAction.setObjectName(u"newTimelineAction")
+        self.openAction = QAction(GUIMonkeyMain)
+        self.openAction.setObjectName(u"openAction")
+        self.recentsAction = QAction(GUIMonkeyMain)
+        self.recentsAction.setObjectName(u"recentsAction")
         self.centralwidget = QWidget(GUIMonkeyMain)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.TimelineList = QListWidget(self.centralwidget)
-        self.TimelineList.setObjectName(u"TimelineList")
+        self.gridLayout_2 = QGridLayout()
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.addTimelineButton = QPushButton(self.centralwidget)
+        self.addTimelineButton.setObjectName(u"addTimelineButton")
 
-        self.horizontalLayout.addWidget(self.TimelineList)
+        self.gridLayout_2.addWidget(self.addTimelineButton, 1, 0, 1, 1)
+
+        self.timelineList = QListWidget(self.centralwidget)
+        self.timelineList.setObjectName(u"timelineList")
+        self.timelineList.setContextMenuPolicy(Qt.ActionsContextMenu)
+
+        self.gridLayout_2.addWidget(self.timelineList, 2, 0, 1, 1)
+
+
+        self.horizontalLayout.addLayout(self.gridLayout_2)
 
         self.ControlsFrame = QFrame(self.centralwidget)
         self.ControlsFrame.setObjectName(u"ControlsFrame")
@@ -42,15 +53,15 @@ class Ui_GUIMonkeyMain(object):
         self.ControlsFrame.setFrameShadow(QFrame.Raised)
         self.gridLayout = QGridLayout(self.ControlsFrame)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.RemoveStepButton = QPushButton(self.ControlsFrame)
-        self.RemoveStepButton.setObjectName(u"RemoveStepButton")
+        self.removeStepButton = QPushButton(self.ControlsFrame)
+        self.removeStepButton.setObjectName(u"removeStepButton")
 
-        self.gridLayout.addWidget(self.RemoveStepButton, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.removeStepButton, 0, 1, 1, 1)
 
-        self.AddStepButton = QPushButton(self.ControlsFrame)
-        self.AddStepButton.setObjectName(u"AddStepButton")
+        self.addStepButton = QPushButton(self.ControlsFrame)
+        self.addStepButton.setObjectName(u"addStepButton")
 
-        self.gridLayout.addWidget(self.AddStepButton, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.addStepButton, 0, 0, 1, 1)
 
         self.pushButton = QPushButton(self.ControlsFrame)
         self.pushButton.setObjectName(u"pushButton")
@@ -66,17 +77,17 @@ class Ui_GUIMonkeyMain(object):
         self.scrollArea = QScrollArea(self.centralwidget)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setWidgetResizable(True)
-        self.TimelineScroll = QWidget()
-        self.TimelineScroll.setObjectName(u"TimelineScroll")
-        self.TimelineScroll.setGeometry(QRect(0, 0, 780, 264))
-        self.scrollArea.setWidget(self.TimelineScroll)
+        self.timelineScroll = QWidget()
+        self.timelineScroll.setObjectName(u"timelineScroll")
+        self.timelineScroll.setGeometry(QRect(0, 0, 780, 265))
+        self.scrollArea.setWidget(self.timelineScroll)
 
         self.verticalLayout.addWidget(self.scrollArea)
 
         GUIMonkeyMain.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(GUIMonkeyMain)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 22))
+        self.menubar.setGeometry(QRect(0, 0, 800, 21))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         GUIMonkeyMain.setMenuBar(self.menubar)
@@ -85,9 +96,8 @@ class Ui_GUIMonkeyMain(object):
         GUIMonkeyMain.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuFile.menuAction())
-        self.menuFile.addAction(self.actionNew_Timeline)
-        self.menuFile.addAction(self.actionOpen)
-        self.menuFile.addAction(self.actionRecents)
+        self.menuFile.addAction(self.openAction)
+        self.menuFile.addAction(self.recentsAction)
 
         self.retranslateUi(GUIMonkeyMain)
 
@@ -96,11 +106,12 @@ class Ui_GUIMonkeyMain(object):
 
     def retranslateUi(self, GUIMonkeyMain):
         GUIMonkeyMain.setWindowTitle(QCoreApplication.translate("GUIMonkeyMain", u"GUI Monkey", None))
-        self.actionNew_Timeline.setText(QCoreApplication.translate("GUIMonkeyMain", u"New Timeline", None))
-        self.actionOpen.setText(QCoreApplication.translate("GUIMonkeyMain", u"Open..", None))
-        self.actionRecents.setText(QCoreApplication.translate("GUIMonkeyMain", u"Recents", None))
-        self.RemoveStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Remove Step", None))
-        self.AddStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Step", None))
+        self.newTimelineAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"New Timeline", None))
+        self.openAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"Open..", None))
+        self.recentsAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"Recents", None))
+        self.addTimelineButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Timeline", None))
+        self.removeStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Remove Step", None))
+        self.addStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Step", None))
         self.pushButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Execute", None))
         self.menuFile.setTitle(QCoreApplication.translate("GUIMonkeyMain", u"File", None))
     # retranslateUi

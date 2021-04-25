@@ -1,4 +1,4 @@
-from GUIMonkeyCore import GUIMonkeyCore
+from GUIMonkey import GUIMonkeyCore
 from Timelines import Timeline
 from Steps import WaitForImage, ClickOnButton, KeyPress, Delay, Write, \
     WaitForLoading, MoveToButton
