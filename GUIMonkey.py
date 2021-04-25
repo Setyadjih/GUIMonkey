@@ -11,6 +11,8 @@ class GUIMonkeyCore:
         self.timelines = {}
 
     def create_timeline(self, name, source=None):
+        print(f"Creating Timeline {name}, with source: {source}")
+
         if name in self.timelines.keys():
             print("Timeline already exists, please choose a different name")
             return None
@@ -19,6 +21,7 @@ class GUIMonkeyCore:
         self.timelines[name] = new_timeline
 
     def delete_timeline(self, name):
+        print(f"Deleting Timeline: {name}")
         del self.timelines[name]
 
     # Resource pool updating might be done during loop. That might be better
