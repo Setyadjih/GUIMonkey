@@ -68,6 +68,11 @@ class Ui_GUIMonkeyMain(object):
 
         self.gridLayout.addWidget(self.executeButton, 1, 1, 1, 1)
 
+        self.testButton = QPushButton(self.ControlsFrame)
+        self.testButton.setObjectName(u"testButton")
+
+        self.gridLayout.addWidget(self.testButton, 1, 0, 1, 1)
+
 
         self.horizontalLayout.addWidget(self.ControlsFrame)
 
@@ -77,12 +82,21 @@ class Ui_GUIMonkeyMain(object):
         self.scrollArea = QScrollArea(self.centralwidget)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setWidgetResizable(True)
-        self.timelineScroll = QWidget()
-        self.timelineScroll.setObjectName(u"timelineScroll")
-        self.timelineScroll.setGeometry(QRect(0, 0, 780, 265))
-        self.horizontalLayout_2 = QHBoxLayout(self.timelineScroll)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 780, 265))
+        self.horizontalLayout_2 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.scrollArea.setWidget(self.timelineScroll)
+        self.scrollFrame = QFrame(self.scrollAreaWidgetContents)
+        self.scrollFrame.setObjectName(u"scrollFrame")
+        self.scrollFrame.setFrameShape(QFrame.StyledPanel)
+        self.scrollFrame.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_3 = QHBoxLayout(self.scrollFrame)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+
+        self.horizontalLayout_2.addWidget(self.scrollFrame)
+
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.verticalLayout.addWidget(self.scrollArea)
 
@@ -118,6 +132,7 @@ class Ui_GUIMonkeyMain(object):
         self.removeStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Remove Step", None))
         self.addStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Step", None))
         self.executeButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Execute", None))
+        self.testButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"TEST", None))
         self.menuFile.setTitle(QCoreApplication.translate("GUIMonkeyMain", u"File", None))
     # retranslateUi
 

@@ -1,7 +1,7 @@
 import sys
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QListWidgetItem, \
-    QMessageBox
+    QMessageBox, QLayout
 
 import Steps
 from GUIMonkey import GUIMonkeyCore
@@ -32,12 +32,20 @@ class GuiMonkeyUI(QMainWindow):
         self.ui.addTimelineButton.clicked.connect(self.add_timeline)
         self.ui.executeButton.clicked.connect(self.execute_timeline)
         self.ui.addStepButton.clicked.connect(self.add_step_to_timeline)
+        self.ui.removeStepButton.clicked.connect(self.remove_step_from_timeline)
+        self.ui.testButton.clicked.connect(self.test_button)
 
     def add_step_to_timeline(self):
         """Add step to current selected timeline"""
         if not self.current_timeline:
             return
         self.current_timeline.add_step(Steps.KeyPress())
+        self.update_steps()
+
+    def remove_step_from_timeline(self):
+        if self.ui.scrollFrame.layout().count() == 0:
+            return
+        self.current_timeline.remove_step(self.ui.timelineScroll.layout().count()-1)
         self.update_steps()
 
     def update_selected_timeline(self):
@@ -47,23 +55,24 @@ class GuiMonkeyUI(QMainWindow):
 
         self.update_steps()
 
+    def test_button(self):
+
+        print("ScrollFrame Children: ",self.ui.scrollFrame.children())
+        print(f"scrollframe ui count:", self.ui.scrollFrame.layout().count())
+
     def update_steps(self):
         """Clear and regenerate step scroll bar"""
-        # FIXME: there seems to be left overs when clearing the step
-        #  widgets. Need to see if there's a better way to handle the
-        #  refresh or clearing
-        layout = self.ui.timelineScroll.layout()
-        print(f"current steps: {layout.count()}")
-        for step_widget in reversed(range(layout.count())):
-            print(f"removing widget at {step_widget}")
-            layout.takeAt(step_widget)
+        for widget_index in reversed(range(self.ui.scrollFrame.layout().count())):
+            print(f"removing {widget_index}")
+            removed = self.ui.scrollFrame.layout().takeAt(widget_index)
+            removed.widget().deleteLater()
 
+        # Regenerate new steps
         for step in self.current_timeline.steps:
             step_widget = create_step_widget(step)
-            self.ui.timelineScroll.layout().addWidget(step_widget)
+            self.ui.scrollFrame.layout().addWidget(step_widget)
 
         self.ui.timelineList.repaint()
-        print(f"new steps: {layout.count()}")
 
 
     def update_timelines(self):

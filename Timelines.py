@@ -37,6 +37,9 @@ class Timeline:
     def add_step(self, step):
         self.steps.append(step)
 
+    def remove_step(self, index):
+        self.steps.pop(index)
+
     # TODO: Leave this on roadmap
     def add_condition(self, condition, success, failure):
         if condition:
