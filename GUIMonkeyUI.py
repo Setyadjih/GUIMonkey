@@ -45,7 +45,7 @@ class GuiMonkeyUI(QMainWindow):
     def remove_step_from_timeline(self):
         if self.ui.scrollFrame.layout().count() == 0:
             return
-        self.current_timeline.remove_step(self.ui.timelineScroll.layout().count()-1)
+        self.current_timeline.remove_step(len(self.current_timeline.steps)-1)
         self.update_steps()
 
     def update_selected_timeline(self):
@@ -63,7 +63,7 @@ class GuiMonkeyUI(QMainWindow):
     def update_steps(self):
         """Clear and regenerate step scroll bar"""
         for widget_index in reversed(range(self.ui.scrollFrame.layout().count())):
-            print(f"removing {widget_index}")
+            # Removed widgets need to be marked to destroy in main loop
             removed = self.ui.scrollFrame.layout().takeAt(widget_index)
             removed.widget().deleteLater()
 

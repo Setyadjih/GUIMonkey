@@ -54,11 +54,11 @@ class KeyPressWidget(StepBaseWidget):
         # Mod Input
         self.mod_label = QLabel("Mod", self)
         self.mod_combo = QComboBox(self)
-        mod_list = ["None", "ctrl", "shift", "alt", "super"]
+        mod_list = ["None", "Ctrl", "Shift", "Alt", "Super"]
         self.mod_combo.addItems(mod_list)
 
         if self.step.mod:
-            current_mod_index = mod_list.index(self.step.mod)
+            current_mod_index = mod_list.index(self.step.mod.capitalize())
             self.mod_combo.setCurrentIndex(current_mod_index)
 
         self.mod_combo.currentIndexChanged.connect(self.update_mod)
@@ -75,7 +75,7 @@ class KeyPressWidget(StepBaseWidget):
         self.step.key = self.key_line_edit.text()
 
     def update_mod(self):
-        if self.mod_combo.currentText() is "None":
+        if self.mod_combo.currentText() == "None":
             self.step.mod = None
         else:
-            self.step.mod = self.mod_combo.currentText()
+            self.step.mod = self.mod_combo.currentText().lower()
