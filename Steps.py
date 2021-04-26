@@ -5,10 +5,10 @@ import pyautogui
 
 class StepBase:
     """Base class for steps. We mainly want the execute interface"""
-    def __init__(self, step_type=None, resource=None):
-        if not step_type:
-            step_type = self.__class__.__name__
-        self.type = step_type
+    def __init__(self, step_name=None, resource=None):
+        if not step_name:
+            step_name = self.__class__.__name__
+        self.name = step_name
         self.resource = resource
         self.flags = {
             # Require Flags
@@ -33,7 +33,7 @@ class StepBase:
 
 
 class KeyPress(StepBase):
-    def __init__(self, key, mod=None):
+    def __init__(self, key="a", mod=None):
         super(KeyPress, self).__init__()
         self.key = key
         self.mod = mod

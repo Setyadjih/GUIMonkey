@@ -63,10 +63,10 @@ class Ui_GUIMonkeyMain(object):
 
         self.gridLayout.addWidget(self.addStepButton, 0, 0, 1, 1)
 
-        self.pushButton = QPushButton(self.ControlsFrame)
-        self.pushButton.setObjectName(u"pushButton")
+        self.executeButton = QPushButton(self.ControlsFrame)
+        self.executeButton.setObjectName(u"executeButton")
 
-        self.gridLayout.addWidget(self.pushButton, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.executeButton, 1, 1, 1, 1)
 
 
         self.horizontalLayout.addWidget(self.ControlsFrame)
@@ -80,6 +80,8 @@ class Ui_GUIMonkeyMain(object):
         self.timelineScroll = QWidget()
         self.timelineScroll.setObjectName(u"timelineScroll")
         self.timelineScroll.setGeometry(QRect(0, 0, 780, 265))
+        self.horizontalLayout_2 = QHBoxLayout(self.timelineScroll)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.scrollArea.setWidget(self.timelineScroll)
 
         self.verticalLayout.addWidget(self.scrollArea)
@@ -115,7 +117,7 @@ class Ui_GUIMonkeyMain(object):
         self.addTimelineButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Timeline", None))
         self.removeStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Remove Step", None))
         self.addStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Step", None))
-        self.pushButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Execute", None))
+        self.executeButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Execute", None))
         self.menuFile.setTitle(QCoreApplication.translate("GUIMonkeyMain", u"File", None))
     # retranslateUi
 

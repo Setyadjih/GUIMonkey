@@ -65,7 +65,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="executeButton">
            <property name="text">
             <string>Execute</string>
            </property>
@@ -90,6 +90,7 @@
          <height>265</height>
         </rect>
        </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2"/>
       </widget>
      </widget>
     </item>
