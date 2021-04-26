@@ -70,7 +70,7 @@ class KeyPressWidget(StepBaseWidget):
         detail_layout.addWidget(self.mod_combo)
 
     def update_key(self):
-        if self.key_line_edit.text() == None:
+        if not self.key_line_edit.text():
             self.key_line_edit.setText(" ")
         self.step.key = self.key_line_edit.text()
 

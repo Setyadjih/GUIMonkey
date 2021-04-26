@@ -30,21 +30,25 @@ class Ui_GUIMonkeyMain(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.gridLayout_2 = QGridLayout()
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.timelineGrid = QGridLayout()
+        self.timelineGrid.setObjectName(u"timelineGrid")
+        self.timelineList = QListWidget(self.centralwidget)
+        self.timelineList.setObjectName(u"timelineList")
+        font = QFont()
+        font.setPointSize(12)
+        self.timelineList.setFont(font)
+        self.timelineList.setContextMenuPolicy(Qt.ActionsContextMenu)
+        self.timelineList.setDragDropMode(QAbstractItemView.NoDragDrop)
+
+        self.timelineGrid.addWidget(self.timelineList, 2, 0, 1, 1)
+
         self.addTimelineButton = QPushButton(self.centralwidget)
         self.addTimelineButton.setObjectName(u"addTimelineButton")
 
-        self.gridLayout_2.addWidget(self.addTimelineButton, 1, 0, 1, 1)
-
-        self.timelineList = QListWidget(self.centralwidget)
-        self.timelineList.setObjectName(u"timelineList")
-        self.timelineList.setContextMenuPolicy(Qt.ActionsContextMenu)
-
-        self.gridLayout_2.addWidget(self.timelineList, 2, 0, 1, 1)
+        self.timelineGrid.addWidget(self.addTimelineButton, 1, 0, 1, 1)
 
 
-        self.horizontalLayout.addLayout(self.gridLayout_2)
+        self.horizontalLayout.addLayout(self.timelineGrid)
 
         self.ControlsFrame = QFrame(self.centralwidget)
         self.ControlsFrame.setObjectName(u"ControlsFrame")

@@ -18,18 +18,26 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <layout class="QGridLayout" name="gridLayout_2">
+       <layout class="QGridLayout" name="timelineGrid">
+        <item row="2" column="0">
+         <widget class="QListWidget" name="timelineList">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::ActionsContextMenu</enum>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::NoDragDrop</enum>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="0">
          <widget class="QPushButton" name="addTimelineButton">
           <property name="text">
            <string>Add Timeline</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QListWidget" name="timelineList">
-          <property name="contextMenuPolicy">
-           <enum>Qt::ActionsContextMenu</enum>
           </property>
          </widget>
         </item>

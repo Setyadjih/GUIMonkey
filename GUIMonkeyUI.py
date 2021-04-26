@@ -2,6 +2,7 @@ import sys
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QListWidgetItem, \
     QMessageBox, QLayout
+from PySide6.QtCore import Qt
 
 import Steps
 from GUIMonkey import GUIMonkeyCore
@@ -50,6 +51,8 @@ class GuiMonkeyUI(QMainWindow):
 
     def update_selected_timeline(self):
         """Update UI to view current selected timeline details"""
+        if not self.ui.timelineList.currentItem():
+            return
         timeline_name = self.ui.timelineList.currentItem().text()
         self.current_timeline: Timeline = self.core.timelines[timeline_name]
 
@@ -57,23 +60,23 @@ class GuiMonkeyUI(QMainWindow):
 
     def test_button(self):
 
-        print("ScrollFrame Children: ",self.ui.scrollFrame.children())
+        print("ScrollFrame Children: ", self.ui.scrollFrame.children())
         print(f"scrollframe ui count:", self.ui.scrollFrame.layout().count())
 
     def update_steps(self):
         """Clear and regenerate step scroll bar"""
-        for widget_index in reversed(range(self.ui.scrollFrame.layout().count())):
+        layout = self.ui.scrollFrame.layout()
+        for widget_index in reversed(range(layout.count())):
             # Removed widgets need to be marked to destroy in main loop
-            removed = self.ui.scrollFrame.layout().takeAt(widget_index)
+            removed = layout.takeAt(widget_index)
             removed.widget().deleteLater()
 
         # Regenerate new steps
         for step in self.current_timeline.steps:
             step_widget = create_step_widget(step)
-            self.ui.scrollFrame.layout().addWidget(step_widget)
+            layout.addWidget(step_widget)
 
         self.ui.timelineList.repaint()
-
 
     def update_timelines(self):
         self.ui.timelineList.clear()
@@ -91,12 +94,18 @@ class GuiMonkeyUI(QMainWindow):
             print("Canceled Timeline Creation")
             return
 
+        timeline_name = create_timeline_dialog.ui.timelineNameLine.text()
+
         self.core.create_timeline(
-            create_timeline_dialog.ui.timelineNameLine.text(),
+            timeline_name,
             create_timeline_dialog.ui.timelineSourceLine.text()
         )
 
         self.update_timelines()
+
+        item = self.ui.timelineList.findItems(timeline_name, Qt.MatchExactly)[0]
+        index = self.ui.timelineList.indexFromItem(item)
+        self.ui.timelineList.setCurrentIndex(index)
 
     def delete_timeline(self):
         # Check for user confirmation
