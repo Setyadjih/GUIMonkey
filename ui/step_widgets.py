@@ -1,4 +1,5 @@
-from PySide6.QtWidgets import QWidget, QLabel, QSpinBox, QLineEdit, QComboBox
+from PySide6.QtWidgets import QWidget, QLabel, QSpinBox, QLineEdit, \
+    QComboBox, QHBoxLayout, QPushButton, QFileDialog, QFormLayout
 
 import Steps
 from ui.views.StepBase import Ui_stepBaseWidget
@@ -8,7 +9,7 @@ def create_step_widget(step):
     step_type = step.__class__.__name__
     step_dict = {
         "KeyPress": KeyPressWidget,
-        # "WaitForImage": WaitForImageWidget,
+        "WaitForImage": WaitForImageWidget,
         # "Delay": DelayWidget
     }
     step_widget = step_dict[step_type](step)
@@ -26,33 +27,25 @@ class StepBaseWidget(QWidget):
         self.ui.stepNameLine.setText(step.name)
         self.ui.stepNameLine.textChanged.connect(self.update_step_name)
 
-        # Load specific step type details
-        self.load_details()
-
     def update_step_name(self):
         self.step.name = self.ui.stepNameLine.text()
-
-    def load_details(self):
-        """virtual function to be overloaded"""
-        pass
 
 
 class KeyPressWidget(StepBaseWidget):
     def __init__(self, step: Steps.KeyPress):
         super(KeyPressWidget, self).__init__(step)
 
-    def load_details(self):
         detail_layout = self.ui.detailFrame.layout()
 
         # Key input
-        self.key_label = QLabel("Key", self)
+        self.key_label = QLabel("Key: ", self)
         self.key_line_edit = QLineEdit(self)
         self.key_line_edit.setMaxLength(1)
         self.key_line_edit.setText(self.step.key)
         self.key_line_edit.textChanged.connect(self.update_key)
 
         # Mod Input
-        self.mod_label = QLabel("Mod", self)
+        self.mod_label = QLabel("Mod: ", self)
         self.mod_combo = QComboBox(self)
         mod_list = ["None", "Ctrl", "Shift", "Alt", "Super"]
         self.mod_combo.addItems(mod_list)
@@ -79,3 +72,55 @@ class KeyPressWidget(StepBaseWidget):
             self.step.mod = None
         else:
             self.step.mod = self.mod_combo.currentText().lower()
+
+
+class WaitForImageWidget(StepBaseWidget):
+    def __init__(self, step: Steps.WaitForImage):
+        super(WaitForImageWidget, self).__init__(step)
+
+        detail_layout: QFormLayout = self.ui.detailFrame.layout()
+
+        # Image selection
+        self.image_label = QLabel()
+        self.image_button = QPushButton("Select Image")
+
+        # Timeout Input
+        self.timeout_spin = QSpinBox()
+
+        # Signal/Slots
+        self.timeout_spin.valueChanged.connect(self.update_timeout)
+        self.image_button.clicked.connect(self.update_image)
+
+        # Widget insert
+        detail_layout.addRow("Image: ", self.image_label)
+        detail_layout.addRow("", self.image_button)
+        detail_layout.addRow("Timeout: ", self.timeout_spin)
+
+        # Init
+        self.image_label.setText(self.step.image)
+        self.timeout_spin.setValue(self.step.timeout)
+
+        if not self.image_label.text():
+            self.image_label.setText("No image selected")
+
+    def update_image(self):
+        file_name = QFileDialog.getOpenFileName(
+            parent=None,
+            caption="Choose Image to Find",
+            dir=self.step.timeline.gm.resource_pool.as_posix(),
+            filter="Images (*.png *.jpg)"
+        )
+
+        if not file_name:
+            print("Canceled selection")
+            return
+
+        self.step.image = file_name[0]
+        self.image_label.setText(self.step.image)
+
+        if not self.image_label.text():
+            self.image_label.setText("No image selected")
+
+    def update_timeout(self):
+        new_time = self.timeout_spin.value()
+        self.step.timeout = new_time

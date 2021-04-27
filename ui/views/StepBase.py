@@ -19,6 +19,7 @@ class Ui_stepBaseWidget(object):
             stepBaseWidget.setObjectName(u"stepBaseWidget")
         stepBaseWidget.resize(200, 204)
         stepBaseWidget.setMinimumSize(QSize(200, 0))
+        stepBaseWidget.setMaximumSize(QSize(200, 16777215))
         self.verticalLayout = QVBoxLayout(stepBaseWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.stepNameLine = QLineEdit(stepBaseWidget)
