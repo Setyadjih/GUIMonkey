@@ -17,7 +17,7 @@ class GUIMonkeyCore:
             print("Timeline already exists, please choose a different name")
             return None
 
-        new_timeline = Timeline(name, source)
+        new_timeline = Timeline(self, name, source)
         self.timelines[name] = new_timeline
 
     def delete_timeline(self, name):
@@ -29,11 +29,10 @@ class GUIMonkeyCore:
 
     def set_resource_pool(self, path):
         self.resource_pool = path
-        # self.check_resource_pool()
+        self.check_resource_pool()
 
     def check_resource_pool(self):
         for file in self.resource_pool.rglob("*.*"):
-            # TODO: Generate UI thumbnails and tags
             self.register_resource(file)
 
     def add_resource(self, source, dest):

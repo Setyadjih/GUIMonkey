@@ -5,11 +5,11 @@ import pyautogui
 
 class StepBase:
     """Base class for steps. We mainly want the execute interface"""
-    def __init__(self, step_name=None, resource=None):
+    def __init__(self, timeline, step_name=None):
+        self.timeline = timeline
         if not step_name:
             step_name = self.__class__.__name__
         self.name = step_name
-        self.resource = resource
         self.flags = {
             # Require Flags
             'require': False,
@@ -33,8 +33,8 @@ class StepBase:
 
 
 class KeyPress(StepBase):
-    def __init__(self, key="a", mod=None):
-        super(KeyPress, self).__init__()
+    def __init__(self, timeline, key="a", mod=None):
+        super(KeyPress, self).__init__(timeline)
         self.key = key
         self.mod = mod
 
@@ -49,11 +49,11 @@ class KeyPress(StepBase):
 
 
 class WaitForImage(StepBase):
-    def __init__(self, image_key, timeout=30):
-        super(WaitForImage, self).__init__()
-        self.require_data(True, image_key)
+    def __init__(self, timeline, image=None, timeout=30):
+        super(WaitForImage, self).__init__(timeline)
+        self.require_data(True, image)
         self.timeout = timeout
-        self.image = image_key
+        self.image = image
         self.output_data(True, "image_loc")
 
         # TODO: figure out system for data output
@@ -82,8 +82,8 @@ class WaitForImage(StepBase):
 
 
 class Delay(StepBase):
-    def __init__(self, delay):
-        super(Delay, self).__init__()
+    def __init__(self, timeline, delay):
+        super(Delay, self).__init__(timeline)
         self.delay = delay
 
     def execute(self):
@@ -92,8 +92,8 @@ class Delay(StepBase):
 
 
 class MoveToButton(StepBase):
-    def __init__(self, button):
-        super(MoveToButton, self).__init__()
+    def __init__(self, timeline, button):
+        super(MoveToButton, self).__init__(timeline)
         self.button = button
 
     def execute(self):
@@ -105,8 +105,8 @@ class MoveToButton(StepBase):
 
 
 class ClickOnButton(StepBase):
-    def __init__(self, button, click_num=1):
-        super(ClickOnButton, self).__init__()
+    def __init__(self, timeline, button, click_num=1):
+        super(ClickOnButton, self).__init__(timeline)
         self.require_data(True, "image_loc")
         self.button = button
         self.click_num = click_num
@@ -132,8 +132,8 @@ class Write(StepBase):
 
 
 class WaitForLoading(StepBase):
-    def __init__(self, loading_image, trigger_max=3):
-        super(WaitForLoading, self).__init__()
+    def __init__(self, timeline, loading_image, trigger_max=3):
+        super(WaitForLoading, self).__init__(timeline)
         self.loading_image = loading_image
         self.trigger_max = trigger_max
 

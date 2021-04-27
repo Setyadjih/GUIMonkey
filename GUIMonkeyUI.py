@@ -40,7 +40,7 @@ class GuiMonkeyUI(QMainWindow):
         """Add step to current selected timeline"""
         if not self.current_timeline:
             return
-        self.current_timeline.add_step(Steps.KeyPress())
+        self.current_timeline.add_step(Steps.WaitForImage)
         self.update_steps()
 
     def remove_step_from_timeline(self):
