@@ -122,5 +122,18 @@ class WaitForImageWidget(StepBaseWidget):
             self.image_label.setText("No image selected")
 
     def update_timeout(self):
-        new_time = self.timeout_spin.value()
-        self.step.timeout = new_time
+        self.step.timeout = self.timeout_spin.value()
+
+
+class DelayWidget(StepBaseWidget):
+    def __init__(self, step: Steps.Delay):
+        super(DelayWidget, self).__init__(step)
+
+        detail_layout = self.ui.detailFrame.layout()
+        self.delay_time = QSpinBox()
+        detail_layout.addRow("Delay: ", self.delay_time)
+
+        self.delay_time.valueChanged.connect(self.update_delay)
+
+    def update_delay(self):
+        self.step.delay = self.delay_time.value()
