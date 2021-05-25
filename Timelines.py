@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 
+
 class Timeline:
     def __init__(self, guimonkey, name=None, program_path=None):
         self.gm = guimonkey
@@ -11,6 +12,7 @@ class Timeline:
         self.steps = []
         self.requirements = None
         self.data = {}
+        self.selected_index = 0
 
     def register_resource(self, key, resource):
         self.data[key] = resource
@@ -40,10 +42,17 @@ class Timeline:
                 return
 
     def add_step(self, step_class):
-        self.steps.append(step_class(self))
+        new_step = step_class(self)
+        new_step.index = len(self.steps)
+        new_step.name += str(new_step.index)
+        self.steps.append(new_step)
 
-    def remove_step(self, index):
-        self.steps.pop(index+1)
+    def remove_step(self):
+        self.steps.pop(self.selected_index)
+        self.selected_index -= 1
+
+        for i, step in enumerate(self.steps):
+            step.index = i
 
     # TODO: Leave this on roadmap
     def add_condition(self, condition, success, failure):

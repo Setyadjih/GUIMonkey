@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>217</width>
-    <height>95</height>
+    <width>404</width>
+    <height>135</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,11 +46,22 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="timelineSourceLine">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLineEdit" name="timelineSourceLine">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="select_app_btn">
+         <property name="text">
+          <string>Select App</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

@@ -20,6 +20,7 @@ class Ui_stepBaseWidget(object):
         stepBaseWidget.resize(200, 204)
         stepBaseWidget.setMinimumSize(QSize(200, 0))
         stepBaseWidget.setMaximumSize(QSize(200, 16777215))
+        stepBaseWidget.setFocusPolicy(Qt.ClickFocus)
         self.verticalLayout = QVBoxLayout(stepBaseWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.stepNameLine = QLineEdit(stepBaseWidget)

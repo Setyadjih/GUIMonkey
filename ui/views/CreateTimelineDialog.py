@@ -17,7 +17,7 @@ class Ui_createTimelineDialog(object):
     def setupUi(self, createTimelineDialog):
         if not createTimelineDialog.objectName():
             createTimelineDialog.setObjectName(u"createTimelineDialog")
-        createTimelineDialog.resize(217, 95)
+        createTimelineDialog.resize(404, 135)
         self.verticalLayout = QVBoxLayout(createTimelineDialog)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.formLayout = QFormLayout()
@@ -47,10 +47,20 @@ class Ui_createTimelineDialog(object):
 
         self.formLayout.setWidget(1, QFormLayout.LabelRole, self.sourceLabel)
 
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.timelineSourceLine = QLineEdit(createTimelineDialog)
         self.timelineSourceLine.setObjectName(u"timelineSourceLine")
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.timelineSourceLine)
+        self.horizontalLayout.addWidget(self.timelineSourceLine)
+
+        self.select_app_btn = QPushButton(createTimelineDialog)
+        self.select_app_btn.setObjectName(u"select_app_btn")
+
+        self.horizontalLayout.addWidget(self.select_app_btn)
+
+
+        self.formLayout.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout)
 
 
         self.verticalLayout.addLayout(self.formLayout)
@@ -75,5 +85,6 @@ class Ui_createTimelineDialog(object):
         self.nameLabel.setText(QCoreApplication.translate("createTimelineDialog", u"Name", None))
         self.sourceLabel.setText(QCoreApplication.translate("createTimelineDialog", u"Source", None))
         self.timelineSourceLine.setText("")
+        self.select_app_btn.setText(QCoreApplication.translate("createTimelineDialog", u"Select App", None))
     # retranslateUi
 

@@ -10,6 +10,7 @@ class StepBase:
         if not step_name:
             step_name = self.__class__.__name__
         self.name = step_name
+        self.index = 0
         self.flags = {
             # Require Flags
             'require': False,

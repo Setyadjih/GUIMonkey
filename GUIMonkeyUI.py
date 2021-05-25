@@ -47,7 +47,7 @@ class GuiMonkeyUI(QMainWindow):
     def remove_step_from_timeline(self):
         if self.ui.scrollFrame.layout().count() == 0:
             return
-        self.current_timeline.remove_step(len(self.current_timeline.steps)-1)
+        self.current_timeline.remove_step()
         self.update_steps()
 
     def update_selected_timeline(self):
