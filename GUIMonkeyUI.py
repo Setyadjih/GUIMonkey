@@ -21,6 +21,7 @@ class GuiMonkeyUI(QMainWindow):
 
         self.core = GUIMonkeyCore()
         self.current_timeline: Timeline = None
+
         # Timeline list Context Menu
         delete_action = self.ui.deleteTimelineAction
         self.ui.timelineList.addAction(delete_action)
