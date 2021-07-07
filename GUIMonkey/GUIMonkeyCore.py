@@ -6,6 +6,7 @@ from GUIMonkey.Timelines import Timeline
 
 class TimelineManager:
     """Core Engine to manage Timelines and resource pool directory"""
+
     def __init__(self):
         self.resource_pool = Path("../resources")
         self.timelines = {}
@@ -47,5 +48,5 @@ class TimelineManager:
         pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     gm = TimelineManager()

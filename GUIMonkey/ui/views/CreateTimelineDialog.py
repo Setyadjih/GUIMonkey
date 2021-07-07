@@ -59,32 +59,32 @@ class Ui_createTimelineDialog(object):
 
         self.horizontalLayout.addWidget(self.select_app_btn)
 
-
         self.formLayout.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout)
-
 
         self.verticalLayout.addLayout(self.formLayout)
 
         self.buttonBox = QDialogButtonBox(createTimelineDialog)
         self.buttonBox.setObjectName(u"buttonBox")
         self.buttonBox.setOrientation(Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
 
         self.verticalLayout.addWidget(self.buttonBox)
-
 
         self.retranslateUi(createTimelineDialog)
         self.buttonBox.accepted.connect(createTimelineDialog.accept)
         self.buttonBox.rejected.connect(createTimelineDialog.reject)
 
         QMetaObject.connectSlotsByName(createTimelineDialog)
+
     # setupUi
 
     def retranslateUi(self, createTimelineDialog):
-        createTimelineDialog.setWindowTitle(QCoreApplication.translate("createTimelineDialog", u"Create Timeline", None))
+        createTimelineDialog.setWindowTitle(
+            QCoreApplication.translate("createTimelineDialog", u"Create Timeline", None)
+        )
         self.nameLabel.setText(QCoreApplication.translate("createTimelineDialog", u"Name", None))
         self.sourceLabel.setText(QCoreApplication.translate("createTimelineDialog", u"Source", None))
         self.timelineSourceLine.setText("")
         self.select_app_btn.setText(QCoreApplication.translate("createTimelineDialog", u"Select App", None))
-    # retranslateUi
 
+    # retranslateUi

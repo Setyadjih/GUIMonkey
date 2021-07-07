@@ -1,7 +1,6 @@
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QListWidgetItem, \
-    QMessageBox
+from PySide6.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QMessageBox
 from PySide6.QtCore import Qt
 
 from GUIMonkey import Steps, GUIMonkeyCore
@@ -96,10 +95,7 @@ class GuiMonkeyUI(QMainWindow):
 
         timeline_name = create_timeline_dialog.ui.timelineNameLine.text()
 
-        self.core.create_timeline(
-            timeline_name,
-            create_timeline_dialog.ui.timelineSourceLine.text()
-        )
+        self.core.create_timeline(timeline_name, create_timeline_dialog.ui.timelineSourceLine.text())
 
         self.update_timelines()
 
@@ -128,7 +124,7 @@ class GuiMonkeyUI(QMainWindow):
         self.current_timeline.run_timeline()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     window = GuiMonkeyUI()

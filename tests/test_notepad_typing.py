@@ -41,6 +41,3 @@ def test_notepad_typing():
             assert line == text
 
         os.remove(test_file_out)
-
-
-

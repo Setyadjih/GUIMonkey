@@ -1,5 +1,13 @@
-from PySide6.QtWidgets import QWidget, QLabel, QSpinBox, QLineEdit, \
-    QComboBox, QPushButton, QFileDialog, QFormLayout
+from PySide6.QtWidgets import (
+    QWidget,
+    QLabel,
+    QSpinBox,
+    QLineEdit,
+    QComboBox,
+    QPushButton,
+    QFileDialog,
+    QFormLayout,
+)
 from PySide6.QtGui import QPalette, QColor
 from GUIMonkey import Steps
 from GUIMonkey.ui.views.StepBase import Ui_stepBaseWidget
@@ -10,7 +18,7 @@ def create_step_widget(step):
     step_dict = {
         "KeyPress": KeyPressWidget,
         "WaitForImage": WaitForImageWidget,
-        "Delay": DelayWidget
+        "Delay": DelayWidget,
     }
     step_widget = step_dict[step_type](step)
     return step_widget
@@ -119,7 +127,7 @@ class WaitForImageWidget(StepBaseWidget):
             parent=None,
             caption="Choose Image to Find",
             dir=self.step.timeline.gm.resource_pool.as_posix(),
-            filter="Images (*.png *.jpg)"
+            filter="Images (*.png *.jpg)",
         )
 
         if not file_name:

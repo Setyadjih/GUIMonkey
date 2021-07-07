@@ -6,6 +6,7 @@ import pyautogui
 
 class StepBase(ABC):
     """Base class for steps. We mainly want the execute interface"""
+
     @abstractmethod
     def __init__(self, timeline, step_name: str = None):
         self.timeline = timeline
@@ -15,12 +16,11 @@ class StepBase(ABC):
         self.index = 0
         self.flags = {
             # Require Flags
-            'require': False,
-            'require_key': None,
-            
+            "require": False,
+            "require_key": None,
             # output Flags
-            'output': False,
-            'output_key': None,
+            "output": False,
+            "output_key": None,
         }
 
     @abstractmethod
@@ -28,12 +28,12 @@ class StepBase(ABC):
         print(f"Executing {self.name}...")
 
     def require_data(self, require_bool=False, require_key=None):
-        self.flags['require'] = require_bool
-        self.flags['require_key'] = require_key
+        self.flags["require"] = require_bool
+        self.flags["require_key"] = require_key
 
     def output_data(self, pass_bool=False, output_key=None):
-        self.flags['output'] = pass_bool
-        self.flags['output_key'] = output_key
+        self.flags["output"] = pass_bool
+        self.flags["output_key"] = output_key
 
 
 class KeyPress(StepBase):
@@ -70,10 +70,7 @@ class WaitForImage(StepBase):
 
         while current - start < self.timeout:
             time.sleep(3)
-            image_loc = pyautogui.locateCenterOnScreen(
-                self.image,
-                confidence=0.9
-            )
+            image_loc = pyautogui.locateCenterOnScreen(self.image, confidence=0.9)
             if image_loc:
                 print("Found!")
                 return image_loc
@@ -86,7 +83,7 @@ class WaitForImage(StepBase):
 
 
 class Delay(StepBase):
-    def __init__(self, timeline, delay=0.5, step_name=None, ):
+    def __init__(self, timeline, delay=0.5, step_name=None):
         super(Delay, self).__init__(timeline, step_name)
         self.delay = delay
 
@@ -102,9 +99,7 @@ class MoveToButton(StepBase):
 
     def execute(self):
         super(MoveToButton, self).execute()
-        button_loc = pyautogui.locateCenterOnScreen(
-            self.button, confidence=0.9
-        )
+        button_loc = pyautogui.locateCenterOnScreen(self.button, confidence=0.9)
         pyautogui.moveTo(button_loc[0], button_loc[1])
 
 
@@ -132,7 +127,7 @@ class Write(StepBase):
         super(Write, self).execute()
         pyautogui.write(self.text)
         if self.enter:
-            pyautogui.press('enter')
+            pyautogui.press("enter")
 
 
 class WaitForLoading(StepBase):
@@ -145,10 +140,7 @@ class WaitForLoading(StepBase):
         super(WaitForLoading, self).execute()
         trigger = 0
         while trigger < self.trigger_max:
-            load1 = pyautogui.locateCenterOnScreen(
-                "resources/CLO_loading.png",
-                confidence=0.9
-            )
+            load1 = pyautogui.locateCenterOnScreen("resources/CLO_loading.png", confidence=0.9)
             if load1:
                 print("found loading, waiting...")
                 trigger = 0
@@ -157,5 +149,4 @@ class WaitForLoading(StepBase):
             else:
                 trigger += 1
                 time.sleep(1)
-                print(f"Did not find loading, triggering ({trigger} / "
-                      f"{self.trigger_max})")
+                print(f"Did not find loading, triggering ({trigger} / " f"{self.trigger_max})")

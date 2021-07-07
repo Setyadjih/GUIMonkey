@@ -49,14 +49,14 @@ class Ui_stepBaseWidget(object):
 
         self.verticalLayout.addWidget(self.detailFrame)
 
-
         self.retranslateUi(stepBaseWidget)
 
         QMetaObject.connectSlotsByName(stepBaseWidget)
+
     # setupUi
 
     def retranslateUi(self, stepBaseWidget):
         stepBaseWidget.setWindowTitle(QCoreApplication.translate("stepBaseWidget", u"Form", None))
         self.stepNameLine.setText(QCoreApplication.translate("stepBaseWidget", u"Step Name", None))
-    # retranslateUi
 
+    # retranslateUi

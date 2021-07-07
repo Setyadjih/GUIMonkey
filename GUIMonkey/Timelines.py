@@ -9,7 +9,7 @@ class Timeline:
     def __init__(self, guimonkey, name=None, program_path: Path = None):
         self.gm = guimonkey
         self.name = name
-        self.resource_pool: Path = self.gm.resource_pool.joinpath(self.name+"/")
+        self.resource_pool: Path = self.gm.resource_pool.joinpath(self.name + "/")
         self.resource_pool.mkdir(parents=True, exist_ok=True)
         self.program = program_path
         self.program_name = program_path.stem
@@ -71,4 +71,3 @@ class Timeline:
             success()
         else:
             failure()
-
