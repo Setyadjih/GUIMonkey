@@ -1,16 +1,15 @@
 import sys
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QListWidgetItem, \
-    QMessageBox, QLayout
+    QMessageBox
 from PySide6.QtCore import Qt
 
-import Steps
-from GUIMonkey import GUIMonkeyCore
-from Timelines import Timeline
+from GUIMonkey import Steps, GUIMonkeyCore
+from GUIMonkey.Timelines import Timeline
 
-from ui.views.GUIMonkeyMain import Ui_GUIMonkeyMain
-from ui.support_widgets import CreateTimelineDialog
-from ui.step_widgets import create_step_widget
+from GUIMonkey.ui.views.GUIMonkeyMain import Ui_GUIMonkeyMain
+from GUIMonkey.ui.support_widgets import CreateTimelineDialog
+from GUIMonkey.ui.step_widgets import create_step_widget
 
 
 class GuiMonkeyUI(QMainWindow):

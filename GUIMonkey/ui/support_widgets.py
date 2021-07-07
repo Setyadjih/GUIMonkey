@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QDialog, QFileDialog
-from ui.views.CreateTimelineDialog import Ui_createTimelineDialog
+from GUIMonkey.ui.views.CreateTimelineDialog import Ui_createTimelineDialog
 
 
 class CreateTimelineDialog(QDialog):

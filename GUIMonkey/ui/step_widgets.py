@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import QWidget, QLabel, QSpinBox, QLineEdit, \
-    QComboBox, QHBoxLayout, QPushButton, QFileDialog, QFormLayout
+    QComboBox, QPushButton, QFileDialog, QFormLayout
 from PySide6.QtGui import QPalette, QColor
-import Steps
-from ui.views.StepBase import Ui_stepBaseWidget
+from GUIMonkey import Steps
+from GUIMonkey.ui.views.StepBase import Ui_stepBaseWidget
 
 
 def create_step_widget(step):
