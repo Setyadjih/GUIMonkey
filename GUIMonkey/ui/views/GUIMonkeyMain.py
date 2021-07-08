@@ -47,7 +47,6 @@ class Ui_GUIMonkeyMain(object):
 
         self.timelineGrid.addWidget(self.addTimelineButton, 1, 0, 1, 1)
 
-
         self.horizontalLayout.addLayout(self.timelineGrid)
 
         self.ControlsFrame = QFrame(self.centralwidget)
@@ -77,14 +76,13 @@ class Ui_GUIMonkeyMain(object):
 
         self.gridLayout.addWidget(self.testButton, 1, 0, 1, 1)
 
-
         self.horizontalLayout.addWidget(self.ControlsFrame)
-
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.scrollArea = QScrollArea(self.centralwidget)
         self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setFrameShape(QFrame.StyledPanel)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
@@ -122,6 +120,7 @@ class Ui_GUIMonkeyMain(object):
         self.retranslateUi(GUIMonkeyMain)
 
         QMetaObject.connectSlotsByName(GUIMonkeyMain)
+
     # setupUi
 
     def retranslateUi(self, GUIMonkeyMain):
@@ -129,14 +128,16 @@ class Ui_GUIMonkeyMain(object):
         self.openAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"Open..", None))
         self.recentsAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"Recents", None))
         self.deleteTimelineAction.setText(QCoreApplication.translate("GUIMonkeyMain", u"Delete Timeline", None))
-#if QT_CONFIG(tooltip)
-        self.deleteTimelineAction.setToolTip(QCoreApplication.translate("GUIMonkeyMain", u"Delete the selected Timeline", None))
-#endif // QT_CONFIG(tooltip)
+        # if QT_CONFIG(tooltip)
+        self.deleteTimelineAction.setToolTip(
+            QCoreApplication.translate("GUIMonkeyMain", u"Delete the selected Timeline", None)
+        )
+        # endif // QT_CONFIG(tooltip)
         self.addTimelineButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Timeline", None))
         self.removeStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Remove Step", None))
         self.addStepButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Add Step", None))
         self.executeButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"Execute", None))
         self.testButton.setText(QCoreApplication.translate("GUIMonkeyMain", u"TEST", None))
         self.menuFile.setTitle(QCoreApplication.translate("GUIMonkeyMain", u"File", None))
-    # retranslateUi
 
+    # retranslateUi

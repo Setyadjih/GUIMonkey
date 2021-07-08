@@ -1,16 +1,17 @@
 from pathlib import Path
 import shutil
 
-from Timelines import Timeline
+from GUIMonkey.Timelines import Timeline
 
 
-class GUIMonkeyCore:
+class TimelineManager:
     """Core Engine to manage Timelines and resource pool directory"""
+
     def __init__(self):
-        self.resource_pool = Path("./resources")
+        self.resource_pool = Path("../resources")
         self.timelines = {}
 
-    def create_timeline(self, name, source=None):
+    def create_timeline(self, name, source: Path = None):
         print(f"Creating Timeline {name}, with source: {source}")
 
         if name in self.timelines.keys():
@@ -19,6 +20,8 @@ class GUIMonkeyCore:
 
         new_timeline = Timeline(self, name, source)
         self.timelines[name] = new_timeline
+
+        return self.timelines[name]
 
     def delete_timeline(self, name):
         print(f"Deleting Timeline: {name}")
@@ -43,3 +46,7 @@ class GUIMonkeyCore:
     def register_resource(self, resource):
         # TODO: Generate UI thumbnail and tags
         pass
+
+
+if __name__ == "__main__":
+    gm = TimelineManager()

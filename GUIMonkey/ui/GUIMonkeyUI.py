@@ -1,16 +1,14 @@
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QListWidgetItem, \
-    QMessageBox, QLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QMessageBox
 from PySide6.QtCore import Qt
 
-import Steps
-from GUIMonkey import GUIMonkeyCore
-from Timelines import Timeline
+from GUIMonkey import Steps, GUIMonkeyCore
+from GUIMonkey.Timelines import Timeline
 
-from ui.views.GUIMonkeyMain import Ui_GUIMonkeyMain
-from ui.support_widgets import CreateTimelineDialog
-from ui.step_widgets import create_step_widget
+from GUIMonkey.ui.views.GUIMonkeyMain import Ui_GUIMonkeyMain
+from GUIMonkey.ui.support_widgets import CreateTimelineDialog
+from GUIMonkey.ui.step_widgets import create_step_widget
 
 
 class GuiMonkeyUI(QMainWindow):
@@ -19,8 +17,9 @@ class GuiMonkeyUI(QMainWindow):
         self.ui = Ui_GUIMonkeyMain()
         self.ui.setupUi(self)
 
-        self.core = GUIMonkeyCore()
+        self.timeline_manager = GUIMonkeyCore.TimelineManager()
         self.current_timeline: Timeline = None
+
         # Timeline list Context Menu
         delete_action = self.ui.deleteTimelineAction
         self.ui.timelineList.addAction(delete_action)
@@ -46,7 +45,7 @@ class GuiMonkeyUI(QMainWindow):
     def remove_step_from_timeline(self):
         if self.ui.scrollFrame.layout().count() == 0:
             return
-        self.current_timeline.remove_step(len(self.current_timeline.steps)-1)
+        self.current_timeline.remove_step()
         self.update_steps()
 
     def update_selected_timeline(self):
@@ -54,7 +53,7 @@ class GuiMonkeyUI(QMainWindow):
         if not self.ui.timelineList.currentItem():
             return
         timeline_name = self.ui.timelineList.currentItem().text()
-        self.current_timeline: Timeline = self.core.timelines[timeline_name]
+        self.current_timeline: Timeline = self.timeline_manager.timelines[timeline_name]
 
         self.update_steps()
 
@@ -81,7 +80,7 @@ class GuiMonkeyUI(QMainWindow):
     def update_timelines(self):
         self.ui.timelineList.clear()
 
-        for timeline in self.core.timelines.values():
+        for timeline in self.timeline_manager.timelines.values():
             self.ui.timelineList.addItem(QListWidgetItem(timeline.name))
 
         self.ui.timelineList.sortItems()
@@ -96,10 +95,7 @@ class GuiMonkeyUI(QMainWindow):
 
         timeline_name = create_timeline_dialog.ui.timelineNameLine.text()
 
-        self.core.create_timeline(
-            timeline_name,
-            create_timeline_dialog.ui.timelineSourceLine.text()
-        )
+        self.timeline_manager.create_timeline(timeline_name, create_timeline_dialog.ui.timelineSourceLine.text())
 
         self.update_timelines()
 
@@ -121,17 +117,17 @@ class GuiMonkeyUI(QMainWindow):
 
         selected_timeline = self.ui.timelineList.currentItem().text()
 
-        self.core.delete_timeline(selected_timeline)
+        self.timeline_manager.delete_timeline(selected_timeline)
         self.update_timelines()
 
     def execute_timeline(self):
         self.current_timeline.run_timeline()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     window = GuiMonkeyUI()
     window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

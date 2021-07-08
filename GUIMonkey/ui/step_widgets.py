@@ -1,8 +1,16 @@
-from PySide6.QtWidgets import QWidget, QLabel, QSpinBox, QLineEdit, \
-    QComboBox, QHBoxLayout, QPushButton, QFileDialog, QFormLayout
-
-import Steps
-from ui.views.StepBase import Ui_stepBaseWidget
+from PySide6.QtWidgets import (
+    QWidget,
+    QLabel,
+    QSpinBox,
+    QLineEdit,
+    QComboBox,
+    QPushButton,
+    QFileDialog,
+    QFormLayout,
+)
+from PySide6.QtGui import QPalette, QColor
+from GUIMonkey import Steps
+from GUIMonkey.ui.views.StepBase import Ui_stepBaseWidget
 
 
 def create_step_widget(step):
@@ -10,7 +18,7 @@ def create_step_widget(step):
     step_dict = {
         "KeyPress": KeyPressWidget,
         "WaitForImage": WaitForImageWidget,
-        # "Delay": DelayWidget
+        "Delay": DelayWidget,
     }
     step_widget = step_dict[step_type](step)
     return step_widget
@@ -29,6 +37,17 @@ class StepBaseWidget(QWidget):
 
     def update_step_name(self):
         self.step.name = self.ui.stepNameLine.text()
+
+    def focusInEvent(self, event):
+        self.step.timeline.selected_index = self.step.index
+        print(f"focused on {self.step.name}")
+        pal = self.palette()
+        pal.setColor(QPalette.Window, QColor("grey"))
+        self.setPalette(pal)
+
+    def focusOutEvent(self, event) -> None:
+        pal = self.palette()
+        pal.setColor(QPalette.Window, QColor(""))
 
 
 class KeyPressWidget(StepBaseWidget):
@@ -108,7 +127,7 @@ class WaitForImageWidget(StepBaseWidget):
             parent=None,
             caption="Choose Image to Find",
             dir=self.step.timeline.gm.resource_pool.as_posix(),
-            filter="Images (*.png *.jpg)"
+            filter="Images (*.png *.jpg)",
         )
 
         if not file_name:
