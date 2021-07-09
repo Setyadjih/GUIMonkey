@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import time
 
 # TODO: this architecture doesn't seem right. Let's see if there's a better way to organize the application files
 from GUIMonkey.GUIMonkeyCore import TimelineManager
@@ -33,11 +34,17 @@ def test_notepad_typing():
     notepad_type_text(text, test_file_out)
 
     print(f"Checking if file is saved to {test_file_out.absolute()}")
+    time.sleep(2)
     assert test_file_out.exists()
 
+    print(f"Checking file contents are correct")
     if test_file_out.exists():
         with open(test_file_out) as notepad_out:
             line = notepad_out.readline()
             assert line == text
 
         os.remove(test_file_out)
+
+
+if __name__ == '__main__':
+    test_notepad_typing()
