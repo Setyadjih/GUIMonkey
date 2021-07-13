@@ -27,7 +27,7 @@ class Timeline:
     def register_resource(self, key, resource):
         self.data[key] = resource
 
-    def run_timeline(self):
+    def run_timeline(self, delay=0.1):
         """Open source program as child process and execute steps in timeline"""
         if self.program:
             self.logger.info("Running program")
@@ -48,6 +48,8 @@ class Timeline:
                 step.execute()
             except Exception as e:
                 self.logger.error(f"{step.name} Failed: {e}")
+
+            time.sleep(delay)
 
     def run_source(self, startup: float = 1) -> subprocess.Popen:
         """Run the source program as a subprocess and attempt to make the window active
