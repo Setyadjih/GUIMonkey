@@ -7,6 +7,10 @@ from GUIMonkey.GUIMonkeyCore import TimelineManager
 from GUIMonkey.Timelines import Timeline
 from GUIMonkey.Steps import Write, KeyPress, Delay
 
+from lib.logger import get_logger
+
+LOGGER = get_logger()
+
 
 def notepad_type_text(text: str, test_dir_path: Path):
     tm = TimelineManager()
@@ -33,11 +37,11 @@ def test_notepad_typing():
 
     notepad_type_text(text, test_file_out)
 
-    print(f"Checking if file is saved to {test_file_out.absolute()}")
+    LOGGER.debug(f"Checking if file is saved to {test_file_out.absolute()}")
     time.sleep(2)
     assert test_file_out.exists()
 
-    print(f"Checking file contents are correct")
+    LOGGER.debug(f"Checking file contents are correct")
     if test_file_out.exists():
         with open(test_file_out) as notepad_out:
             line = notepad_out.readline()

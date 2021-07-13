@@ -4,14 +4,17 @@ from pathlib import Path
 
 import pyautogui
 
+from lib.logger import get_logger
+
 
 class Timeline:
-    def __init__(self, guimonkey, name=None, program_path: Path = None):
+    def __init__(self, guimonkey, name=None, program_path: Path = None, logger=None):
         self.gm = guimonkey
         self.name = name
         self.resource_pool: Path = self.gm.resource_pool.joinpath(self.name + "/")
         self.resource_pool.mkdir(parents=True, exist_ok=True)
         self.program = program_path
+        self.process = None
         # TODO: Allow custom setting of program name
         self.program_name = program_path.stem
         self.steps = []
@@ -19,33 +22,32 @@ class Timeline:
         self.data = {}
         self.selected_index = 0
 
+        self.logger = logger if logger else get_logger(self.name)
+
     def register_resource(self, key, resource):
         self.data[key] = resource
 
     def run_timeline(self):
+        """Open source program as child process and execute steps in timeline"""
         if self.program:
-            print("Running program")
-            process = self.run_source()
+            self.logger.info("Running program")
+            self.process = self.run_source()
             self.make_window_active()
         else:
-            print("No program designated, running without sanity check")
+            self.logger.warning("No program designated, running without sanity check")
 
         for step in self.steps:
             # Check if process is still running
-            if self.program:
-                poll = process.poll()
-            else:
-                poll = None
+            if self.process:
+                self.process.poll()
 
-            # poll returns None if all is good
-            if poll is None:
-                try:
-                    step.execute()
-                except Exception as e:
-                    print(f"{step.name} Failed: {e}")
-            else:
-                print("Program is not running, timeline exiting..")
-                return
+                if self.process.returncode:
+                    self.logger.info("Program is not running, timeline exiting..")
+                    return
+            try:
+                step.execute()
+            except Exception as e:
+                self.logger.error(f"{step.name} Failed: {e}")
 
     def run_source(self, startup: float = 1) -> subprocess.Popen:
         """Run the source program as a subprocess and attempt to make the window active
@@ -68,15 +70,15 @@ class Timeline:
             interval: time between tries
         """
         source_window = pyautogui.getWindowsWithTitle(self.program_name)[0]
-        print(f"found window {source_window}")
+        self.logger.debug(f"found window {source_window}")
         source_window.activate()
         while tries >= 0 and pyautogui.getActiveWindow() != source_window:
-            print("source window not active, trying to reset")
+            self.logger.debug("source window not active, trying to reset")
             time.sleep(interval)
             source_window.activate()
             tries -= 1
         if pyautogui.getActiveWindow() != source_window:
-            print(f"Could not make source window active. Abort to avoid mistakes!")
+            self.logger.debug(f"Could not make source window active. Abort to avoid mistakes!")
             raise ChildProcessError
 
     def add_step(self, step_class, *args, **kwargs):
@@ -85,7 +87,7 @@ class Timeline:
         while new_step.name in self.steps:
             new_step.name += str(new_step.index)
 
-        print(f"Adding {new_step.name}")
+        self.logger.debug(f"Adding {new_step.name}")
         self.steps.append(new_step)
 
     def remove_step(self):

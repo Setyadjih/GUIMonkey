@@ -1,6 +1,7 @@
 from pathlib import Path
 import shutil
 
+from lib.logger import get_logger
 from GUIMonkey.Timelines import Timeline
 
 
@@ -10,12 +11,13 @@ class TimelineManager:
     def __init__(self):
         self.resource_pool = Path("../resources")
         self.timelines = {}
+        self.logger = get_logger()
 
     def create_timeline(self, name, source: Path = None):
-        print(f"Creating Timeline {name}, with source: {source}")
+        self.logger.info(f"Creating Timeline {name}, with source: {source}")
 
         if name in self.timelines.keys():
-            print("Timeline already exists, please choose a different name")
+            self.logger.warning("Timeline already exists, please choose a different name")
             return None
 
         new_timeline = Timeline(self, name, source)
@@ -24,7 +26,7 @@ class TimelineManager:
         return self.timelines[name]
 
     def delete_timeline(self, name):
-        print(f"Deleting Timeline: {name}")
+        self.logger.debug(f"Deleting Timeline: {name}")
         del self.timelines[name]
 
     # Resource pool updating might be done during loop. That might be better

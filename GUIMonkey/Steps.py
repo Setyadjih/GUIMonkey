@@ -3,12 +3,14 @@ from abc import ABC, abstractmethod
 
 import pyautogui
 
+from lib.logger import get_logger
+
 
 class StepBase(ABC):
     """Base class for steps. We mainly want the execute interface"""
 
     @abstractmethod
-    def __init__(self, timeline, step_name: str = None):
+    def __init__(self, timeline, step_name: str = None, logger=None):
         self.timeline = timeline
         if not step_name:
             step_name = self.__class__.__name__
@@ -22,10 +24,11 @@ class StepBase(ABC):
             "output": False,
             "output_key": None,
         }
+        self.logger = logger if logger else get_logger(self.name)
 
     @abstractmethod
     def execute(self):
-        print(f"Executing {self.name}...")
+        self.logger.debug(f"Executing {self.name}...")
 
     def require_data(self, require_bool=False, require_key=None):
         self.flags["require"] = require_bool
@@ -37,8 +40,8 @@ class StepBase(ABC):
 
 
 class KeyPress(StepBase):
-    def __init__(self, timeline, key="a", mod=None, step_name=None):
-        super(KeyPress, self).__init__(timeline, step_name)
+    def __init__(self, timeline, key="a", mod=None, step_name=None, logger=None):
+        super(KeyPress, self).__init__(timeline, step_name, logger)
         self.key = key
         self.mod = mod
 
@@ -53,8 +56,8 @@ class KeyPress(StepBase):
 
 
 class WaitForImage(StepBase):
-    def __init__(self, timeline, image=None, timeout=30, step_name=None):
-        super(WaitForImage, self).__init__(timeline, step_name)
+    def __init__(self, timeline, image=None, timeout=30, step_name=None, logger=None):
+        super(WaitForImage, self).__init__(timeline, step_name, logger)
         self.require_data(True, image)
         self.timeout = timeout
         self.image = image
@@ -72,19 +75,19 @@ class WaitForImage(StepBase):
             time.sleep(3)
             image_loc = pyautogui.locateCenterOnScreen(self.image, confidence=0.9)
             if image_loc:
-                print("Found!")
+                self.logger.debug("Found!")
                 return image_loc
             else:
                 current = time.time()
-                print(f"Did not find image...{int(current - start)}/{self.timeout}")
+                self.logger.debug(f"Did not find image...{int(current - start)}/{self.timeout}")
 
-        print("Search timed out, returning...")
+        self.logger.warning("Search timed out, returning...")
         return image_loc
 
 
 class Delay(StepBase):
-    def __init__(self, timeline, delay=0.5, step_name=None):
-        super(Delay, self).__init__(timeline, step_name)
+    def __init__(self, timeline, delay=0.5, step_name=None, logger=None):
+        super(Delay, self).__init__(timeline, step_name, logger)
         self.delay = delay
 
     def execute(self):
@@ -93,8 +96,8 @@ class Delay(StepBase):
 
 
 class MoveToButton(StepBase):
-    def __init__(self, timeline, button, step_name=None):
-        super(MoveToButton, self).__init__(timeline, step_name)
+    def __init__(self, timeline, button, step_name=None, logger=None):
+        super(MoveToButton, self).__init__(timeline, step_name, logger)
         self.button = button
 
     def execute(self):
@@ -104,8 +107,8 @@ class MoveToButton(StepBase):
 
 
 class ClickOnButton(StepBase):
-    def __init__(self, timeline, button, click_num=1, step_name=None):
-        super(ClickOnButton, self).__init__(timeline, step_name)
+    def __init__(self, timeline, button, click_num=1, step_name=None, logger=None):
+        super(ClickOnButton, self).__init__(timeline, step_name, logger)
         self.require_data(True, "image_loc")
         self.button = button
         self.click_num = click_num
@@ -118,8 +121,8 @@ class ClickOnButton(StepBase):
 
 
 class Write(StepBase):
-    def __init__(self, timeline, text, enter=False, step_name=None):
-        super(Write, self).__init__(timeline, step_name)
+    def __init__(self, timeline, text, enter=False, step_name=None, logger=None):
+        super(Write, self).__init__(timeline, step_name, logger)
         self.text = text
         self.enter = enter
 
@@ -131,8 +134,8 @@ class Write(StepBase):
 
 
 class WaitForLoading(StepBase):
-    def __init__(self, timeline, loading_image, trigger_max=3, step_name=None):
-        super(WaitForLoading, self).__init__(timeline, step_name)
+    def __init__(self, timeline, loading_image, trigger_max=3, step_name=None, logger=None):
+        super(WaitForLoading, self).__init__(timeline, step_name, logger)
         self.loading_image = loading_image
         self.trigger_max = trigger_max
 
@@ -142,11 +145,11 @@ class WaitForLoading(StepBase):
         while trigger < self.trigger_max:
             load1 = pyautogui.locateCenterOnScreen("resources/CLO_loading.png", confidence=0.9)
             if load1:
-                print("found loading, waiting...")
+                self.logger.debug("found loading, waiting...")
                 trigger = 0
                 pyautogui.moveTo(load1)
                 time.sleep(3)
             else:
                 trigger += 1
                 time.sleep(1)
-                print(f"Did not find loading, triggering ({trigger} / " f"{self.trigger_max})")
+                self.logger.debug(f"Did not find loading, triggering ({trigger} / " f"{self.trigger_max})")
