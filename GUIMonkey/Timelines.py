@@ -82,11 +82,7 @@ class Timeline:
             self.logger.debug(f"Could not make source window active. Abort to avoid mistakes!")
             raise ChildProcessError
 
-    def add_step(self, step_class, *args, **kwargs):
-        new_step = step_class(self, *args, **kwargs)
-        new_step.index = len(self.steps)
-        while new_step.name in self.steps:
-            new_step.name += str(new_step.index)
+    def add_step(self, new_step):
 
         self.logger.debug(f"Adding {new_step.name}")
         self.steps.append(new_step)
