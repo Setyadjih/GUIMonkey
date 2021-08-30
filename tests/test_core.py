@@ -32,14 +32,21 @@ def test_step_add():
     manager = TimelineManager()
     timeline = manager.create_timeline(name)
 
-    steps = [Steps.Delay(), Steps.KeyPress("win"), Steps.Write("Test")]
+    steps = [Steps.Delay(), Steps.KeyPress("win"), Steps.Write("Test"), Steps.KeyPress("esc")]
 
     for step in track(steps, description="Adding steps..."):
         timeline.add_step(step)
 
     assert len(timeline.steps) == len(steps)
 
-    timeline.run_timeline()
+
+def test_timeline_naming():
+    """Test timeline naming from program"""
+    LOGGER.info("Running timeline naming test")
+
+    tm = TimelineManager()
+    timeline: Timelines.Timeline = tm.create_timeline("Typing test", source=Path(r"C:\WINDOWS\system32\notepad.exe"))
+    assert timeline.program_name == "notepad"
 
 
 def test_notepad_typing():
@@ -51,7 +58,6 @@ def test_notepad_typing():
     def notepad_type_text():
         tm = TimelineManager()
         timeline: Timelines.Timeline = tm.create_timeline("Typing test", source=Path(r"C:\WINDOWS\system32\notepad.exe"))
-
         timeline.add_step(Steps.Write(text, step_name="Write Text"))
         timeline.add_step(Steps.KeyPress("s", "ctrl", step_name="Save"))
         timeline.add_step(Steps.Delay(1))

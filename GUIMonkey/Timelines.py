@@ -15,7 +15,8 @@ class Timeline:
         self.resource_pool.mkdir(parents=True, exist_ok=True)
         self.program = program_path
         self.process = None
-        self.program_name = program_name.stem if program_name else "Desktop"
+        if not program_name:
+            self.program_name = program_path.stem if program_path else "Desktop"
         self.steps = []
         self.requirements = None
         self.data = {}
@@ -27,9 +28,12 @@ class Timeline:
         self.data[key] = resource
 
     def run_timeline(self, delay=0.1):
-        """Open source program as child process and execute steps in timeline"""
+        """Open source program as child process and execute steps in timeline.
+
+        :param delay: Additional sleep between steps
+        """
         if self.program:
-            self.logger.info("Running program")
+            self.logger.info(f"Timeline {self.name} is running program {self.program_name}")
             self.process = self.run_source()
             self.make_window_active()
         else:
