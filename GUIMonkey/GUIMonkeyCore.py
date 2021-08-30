@@ -13,12 +13,12 @@ class TimelineManager:
         self.timelines = {}
         self.logger = get_logger()
 
-    def create_timeline(self, name, source: Path = None):
+    def create_timeline(self, name, source: Path = None) -> Timeline:
         self.logger.info(f"Creating Timeline {name}, with source: {source}")
 
         if name in self.timelines.keys():
             self.logger.warning("Timeline already exists, please choose a different name")
-            return None
+            raise FileExistsError
 
         new_timeline = Timeline(self, name, source)
         self.timelines[name] = new_timeline

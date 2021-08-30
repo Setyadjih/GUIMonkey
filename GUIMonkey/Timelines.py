@@ -15,7 +15,7 @@ class Timeline:
         self.resource_pool.mkdir(parents=True, exist_ok=True)
         self.program = program_path
         self.process = None
-        self.program_name = program_name if program_name else program_path.stem
+        self.program_name = program_name.stem if program_name else "Desktop"
         self.steps = []
         self.requirements = None
         self.data = {}

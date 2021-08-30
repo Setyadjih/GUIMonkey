@@ -30,7 +30,7 @@ def notepad_type_text(text: str, test_dir_path: Path):
     timeline.run_timeline()
 
 
-def test_notepad_typing():
+def notepad_typing():
     text = "notepad typing succeeeded?"
 
     test_file_out = Path(r"D:\OneDriveLF\PycharmProjects\GUIMonkey\tests\test_dir\typing_text_temp.txt")
@@ -51,4 +51,4 @@ def test_notepad_typing():
 
 
 if __name__ == "__main__":
-    test_notepad_typing()
+    notepad_typing()
