@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 import time
 
-# TODO: this architecture doesn't seem right. Let's see if there's a better way to organize the application files
+# TODO: this architecture doesn't seem right.Is there a better way to organize the application files?
 from GUIMonkey.GUIMonkeyCore import TimelineManager
 from GUIMonkey.Timelines import Timeline
 from GUIMonkey.Steps import Write, KeyPress, Delay
@@ -50,5 +50,5 @@ def test_notepad_typing():
         os.remove(test_file_out)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_notepad_typing()

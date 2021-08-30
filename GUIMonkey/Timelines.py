@@ -8,15 +8,14 @@ from lib.logger import get_logger
 
 
 class Timeline:
-    def __init__(self, guimonkey, name=None, program_path: Path = None, logger=None):
-        self.gm = guimonkey
+    def __init__(self, timeline_manager, name, program_path: Path = None, program_name=None, logger=None):
+        self.manager = timeline_manager
         self.name = name
-        self.resource_pool: Path = self.gm.resource_pool.joinpath(self.name + "/")
+        self.resource_pool: Path = self.manager.resource_pool.joinpath(self.name + "/")
         self.resource_pool.mkdir(parents=True, exist_ok=True)
         self.program = program_path
         self.process = None
-        # TODO: Allow custom setting of program name
-        self.program_name = program_path.stem
+        self.program_name = program_name if program_name else program_path.stem
         self.steps = []
         self.requirements = None
         self.data = {}

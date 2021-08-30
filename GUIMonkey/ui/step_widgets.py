@@ -126,7 +126,7 @@ class WaitForImageWidget(StepBaseWidget):
         file_name = QFileDialog.getOpenFileName(
             parent=None,
             caption="Choose Image to Find",
-            dir=self.step.timeline.gm.resource_pool.as_posix(),
+            dir=self.step.timeline.manager.resource_pool.as_posix(),
             filter="Images (*.png *.jpg)",
         )
 
