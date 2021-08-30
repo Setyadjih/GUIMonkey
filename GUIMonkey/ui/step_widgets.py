@@ -25,10 +25,12 @@ def create_step_widget(step):
 
 
 class StepBaseWidget(QWidget):
-    def __init__(self, step):
+    def __init__(self, step, timeline):
         super(StepBaseWidget, self).__init__()
         self.ui = Ui_stepBaseWidget()
         self.ui.setupUi(self)
+        self.index = 0
+        self.timeline = timeline
 
         # Step name hookup
         self.step = step
@@ -39,7 +41,7 @@ class StepBaseWidget(QWidget):
         self.step.name = self.ui.stepNameLine.text()
 
     def focusInEvent(self, event):
-        self.step.timeline.selected_index = self.step.index
+        self.timeline.selected_index = self.index
         print(f"focused on {self.step.name}")
         pal = self.palette()
         pal.setColor(QPalette.Window, QColor("grey"))
@@ -51,8 +53,8 @@ class StepBaseWidget(QWidget):
 
 
 class KeyPressWidget(StepBaseWidget):
-    def __init__(self, step: Steps.KeyPress):
-        super(KeyPressWidget, self).__init__(step)
+    def __init__(self, step: Steps.KeyPress, timeline):
+        super(KeyPressWidget, self).__init__(step, timeline)
 
         detail_layout = self.ui.detailFrame.layout()
 
@@ -126,7 +128,7 @@ class WaitForImageWidget(StepBaseWidget):
         file_name = QFileDialog.getOpenFileName(
             parent=None,
             caption="Choose Image to Find",
-            dir=self.step.timeline.manager.resource_pool.as_posix(),
+            dir=self.timeline.manager.resource_pool.as_posix(),
             filter="Images (*.png *.jpg)",
         )
 
