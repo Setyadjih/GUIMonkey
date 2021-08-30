@@ -4,6 +4,7 @@ import tempfile
 import logging
 import sys
 
+from rich.logging import RichHandler
 
 LOGGER_FORMAT = '%(asctime)s - ' \
                 '%(module)s.%(funcName)s - ' \
@@ -49,7 +50,8 @@ def get_logger(name=__name__):
     """
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
-    logger.addHandler(get_console_handler())
+    # logger.addHandler(get_console_handler())
+    logger.addHandler(RichHandler())
     logger.addHandler(get_file_handler(name))
     logger.propagate = False
     return logger
