@@ -13,7 +13,7 @@ class StepBase(ABC):
     def __init__(self, step_name: str = None, logger=None):
         self.name = step_name if step_name else self.__class__.__name__
 
-        self.data = None
+        self.data = dict()
         self.flags = {
             # Require Flags
             "require": False,
@@ -28,19 +28,20 @@ class StepBase(ABC):
     def execute(self):
         self.logger.debug(f"Executing {self.name}...")
 
-
 # TODO: This system seems fragile. How should in and out data be handled?
     def require_data(self, require_bool=False, require_key=None):
         self.flags["require"] = require_bool
         self.flags["require_key"] = require_key
+        self.data[require_key] = None
 
     def output_data(self, pass_bool=False, output_key=None):
         self.flags["output"] = pass_bool
         self.flags["output_key"] = output_key
+        self.data[output_key] = None
 
 
 class KeyPress(StepBase):
-    def __init__(self,  key="a", mod=None, step_name=None, logger=None):
+    def __init__(self,  key, mod=None, step_name=None, logger=None):
         super(KeyPress, self).__init__(step_name, logger)
         self.key = key
         self.mod = mod
@@ -56,35 +57,35 @@ class KeyPress(StepBase):
 
 
 class WaitForImage(StepBase):
-    def __init__(self,  image=None, timeout=30, step_name=None, logger=None):
+    def __init__(self,  image, timeout=30, step_name=None, logger=None):
         super(WaitForImage, self).__init__(step_name, logger)
         self.timeout = timeout
-        self.image = image
         self.require_data(True, "image")
         self.output_data(True, "image_loc")
 
-        # TODO: figure out system for data output
+        self.data["image"] = image
 
     def execute(self):
         super(WaitForImage, self).execute()
 
         start = time.time()
         current = time.time()
-        image_loc = None
 
         while current - start < self.timeout:
             time.sleep(3)
-            image_loc = pyautogui.locateCenterOnScreen(self.image, confidence=0.9)
+            image = self.data["image"]
+            image_loc = pyautogui.locateCenterOnScreen(image, confidence=0.9)
             if image_loc:
                 self.logger.debug("Found!")
+                self.data["image_loc"] = image_loc
 
-                return image_loc
+                return
             else:
                 current = time.time()
                 self.logger.debug(f"Did not find image...{int(current - start)}/{self.timeout}")
 
         self.logger.warning("Search timed out, returning...")
-        return image_loc
+        return
 
 
 class Delay(StepBase):
